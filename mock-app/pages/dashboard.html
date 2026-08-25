@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Demo App</title>
+  <style>
+    :root {
+      --bg: #0b1120; --panel: #131b2e; --panel-2: #1a2335; --border: #243049; --ink: #f1f5f9;
+      --muted: #94a3b8; --accent: #4f46e5; --sidebar: #0a0f1e; --sidebar-ink: #cbd5e1;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--ink); -webkit-font-smoothing: antialiased; }
+    .app-shell { display: flex; min-height: 100vh; }
+
+    /* Sidebar */
+    .sidebar { width: 248px; background: var(--sidebar); color: var(--sidebar-ink); display: flex; flex-direction: column; padding: 20px 16px; flex-shrink: 0; border-right: 1px solid var(--border); }
+    .brand { display: flex; align-items: center; gap: 10px; padding: 8px 8px 24px; }
+    .brand-mark { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 9px; background-color: #4338ca; background-image: linear-gradient(135deg, #6366f1, #4338ca); color: #fff; font-size: 16px; font-weight: 700; }
+    .brand-name { font-size: 18px; font-weight: 700; color: #fff; letter-spacing: 0.2px; }
+    .brand-accent { color: #a5b4fc; }
+    .nav-menu { display: flex; flex-direction: column; gap: 4px; margin-top: 6px; }
+    .nav-link { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 9px; text-decoration: none; color: var(--sidebar-ink); font-size: 14px; font-weight: 500; }
+    .nav-link:hover { background: rgba(255,255,255,0.06); color: #fff; }
+    .nav-link.active { background: rgba(99,102,241,0.22); color: #fff; }
+    .nav-ico { font-size: 14px; width: 18px; text-align: center; }
+    .sidebar-footer { margin-top: auto; }
+    .plan-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 14px; }
+    .plan-title { font-size: 13px; font-weight: 600; color: #fff; }
+    .plan-sub { font-size: 12px; color: #94a3b8; margin: 4px 0 10px; }
+    .plan-bar { height: 6px; border-radius: 99px; background: rgba(255,255,255,0.12); overflow: hidden; }
+    .plan-bar span { display: block; height: 100%; background: linear-gradient(90deg, #6366f1, #818cf8); }
+
+    /* Main column */
+    .app-main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 28px; background: var(--panel); border-bottom: 1px solid var(--border); }
+    .topbar-search { position: relative; flex: 1; max-width: 440px; }
+    .search-ico { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 15px; }
+    .search-box { width: 100%; padding: 10px 12px 10px 34px; border: 1px solid var(--border); border-radius: 9px; font-size: 14px; color: var(--ink); background: #0b1120; }
+    .search-box:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,0.25); background: #0d1424; }
+    .search-box::placeholder { color: #94a3b8; }
+    .topbar-actions { display: flex; align-items: center; gap: 10px; }
+    .create-btn { background: var(--accent); color: #fff; border: none; padding: 9px 16px; border-radius: 9px; cursor: pointer; font-size: 14px; font-weight: 600; }
+    .create-btn:hover { background: #3730a3; }
+    .icon-btn { background: var(--panel-2); border: 1px solid var(--border); cursor: pointer; font-size: 16px; width: 38px; height: 38px; border-radius: 9px; display: grid; place-items: center; color: var(--ink); }
+    .icon-btn:hover { background: #232f47; }
+    .avatar-btn { width: 38px; height: 38px; border-radius: 50%; border: none; cursor: pointer; background-color: #4338ca; background-image: linear-gradient(135deg, #6366f1, #4338ca); color: #fff; font-size: 13px; font-weight: 700; }
+    .dropdown { position: relative; display: inline-block; }
+    .dropdown-content { display: none; position: absolute; right: 0; top: calc(100% + 8px); background: var(--panel-2); box-shadow: 0 12px 30px rgba(0,0,0,0.45); border: 1px solid var(--border); border-radius: 10px; min-width: 160px; z-index: 100; overflow: hidden; }
+    .dropdown-content.visible { display: block; }
+    .dropdown-content button { width: 100%; padding: 11px 16px; border: none; background: none; text-align: left; cursor: pointer; font-size: 14px; color: var(--ink); }
+    .dropdown-content button:hover { background: #232f47; }
+
+    .main { padding: 28px; flex: 1; }
+    .page-head { margin-bottom: 22px; }
+    .welcome { font-size: 24px; font-weight: 700; color: var(--ink); }
+    .page-sub { font-size: 14px; color: var(--muted); margin-top: 6px; }
+
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; margin-bottom: 28px; }
+    .stat-card { background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 18px; }
+    .stat-label { font-size: 13px; color: var(--muted); font-weight: 500; }
+    .stat-value { font-size: 26px; font-weight: 700; color: var(--ink); margin: 8px 0 10px; }
+    .badge { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; padding: 3px 8px; border-radius: 99px; }
+    .badge-up { background: rgba(34,197,94,0.16); color: #4ade80; }
+    .badge-down { background: rgba(239,68,68,0.16); color: #f87171; }
+    .badge-muted { background: rgba(99,102,241,0.18); color: #a5b4fc; }
+
+    .section-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+    .section-title { font-size: 16px; font-weight: 700; color: var(--ink); }
+    .tiles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 18px; }
+    .report-tile { display: block; background: var(--panel); padding: 20px; border-radius: 14px; border: 1px solid var(--border); cursor: pointer; transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s; }
+    .report-tile:hover { box-shadow: 0 14px 34px rgba(0,0,0,0.45); transform: translateY(-2px); border-color: #4f46e5; }
+    .tile-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .tile-ico { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 11px; font-size: 17px; font-weight: 700; color: #fff; }
+    .ico-sales { background-color: #4338ca; background-image: linear-gradient(135deg, #6366f1, #4338ca); }
+    .ico-mkt { background-color: #0369a1; background-image: linear-gradient(135deg, #0ea5e9, #0369a1); }
+    .ico-fin { background-color: #047857; background-image: linear-gradient(135deg, #10b981, #047857); }
+    .tile-metric { font-size: 24px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+    .report-tile h3 { font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+    .tile-sub { font-size: 13px; color: var(--muted); }
+    .spark { display: flex; align-items: flex-end; gap: 5px; height: 38px; margin-top: 16px; }
+    .spark span { flex: 1; background: #818cf8; border-radius: 3px 3px 0 0; }
+
+    .side-panel { position: fixed; right: -320px; top: 0; width: 320px; height: 100vh; background: var(--panel); box-shadow: -8px 0 24px rgba(0,0,0,0.5); padding: 24px; transition: right 0.3s; z-index: 200; border-left: 1px solid var(--border); }
+    .side-panel.visible { right: 0; }
+    .side-panel h3 { margin-bottom: 8px; color: var(--ink); }
+    .side-panel p { color: var(--muted); font-size: 14px; }
+    .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">&#x25C6;</span>
+        <span class="brand-name">Insight<span class="brand-accent">BI</span></span>
+      </div>
+      <nav data-testid="nav-menu" class="nav-menu" aria-label="Primary">
+        <a class="nav-link active" href="/dashboard"><span class="nav-ico" aria-hidden="true">&#x2302;</span>Home</a>
+        <a class="nav-link" href="#"><span class="nav-ico" aria-hidden="true">&#x25A4;</span>Reports</a>
+        <a class="nav-link" href="#"><span class="nav-ico" aria-hidden="true">&#x25A6;</span>Workspaces</a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="plan-card">
+          <p class="plan-title">Pro workspace</p>
+          <p class="plan-sub">12 of 20 reports used</p>
+          <div class="plan-bar"><span style="width: 60%;"></span></div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="app-main">
+      <header class="topbar">
+        <div class="topbar-search">
+          <span class="search-ico" aria-hidden="true">&#x2315;</span>
+          <label for="searchInput" class="visually-hidden">Search reports</label>
+          <input data-testid="search-input" type="text" class="search-box" placeholder="Search reports..." id="searchInput" aria-label="Search reports">
+        </div>
+        <div class="topbar-actions">
+          <button data-testid="create-new-btn" class="create-btn">+ Create</button>
+          <button data-testid="notification-bell" class="icon-btn" aria-label="Notifications">&#x1F514;</button>
+          <div class="dropdown">
+            <button data-testid="user-profile" class="avatar-btn" aria-label="User profile menu" aria-haspopup="true">TU</button>
+            <div class="dropdown-content" id="profileMenu">
+              <button data-testid="logout-button">Sign Out</button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="main">
+        <div class="page-head">
+          <h1 data-testid="welcome-message" class="welcome">Welcome back, Test User!</h1>
+          <p class="page-sub">Here is what is happening across your workspaces today.</p>
+        </div>
+
+        <section class="stats" aria-label="Workspace summary">
+          <div class="stat-card">
+            <p class="stat-label">Active reports</p>
+            <p class="stat-value">12</p>
+            <span class="badge badge-up">&#x25B2; 8.2%</span>
+          </div>
+          <div class="stat-card">
+            <p class="stat-label">Total views (30d)</p>
+            <p class="stat-value">8,420</p>
+            <span class="badge badge-up">&#x25B2; 14.3%</span>
+          </div>
+          <div class="stat-card">
+            <p class="stat-label">Scheduled refreshes</p>
+            <p class="stat-value">36</p>
+            <span class="badge badge-up">&#x25B2; 5.0%</span>
+          </div>
+          <div class="stat-card">
+            <p class="stat-label">Connected sources</p>
+            <p class="stat-value">7</p>
+            <span class="badge badge-muted">Healthy</span>
+          </div>
+        </section>
+
+        <section aria-label="Reports">
+          <div class="section-head">
+            <h2 class="section-title">Your reports</h2>
+          </div>
+          <div class="tiles-grid" id="tilesGrid">
+            <div data-testid="report-tile" class="report-tile" data-report-id="1">
+              <div class="tile-top">
+                <span class="tile-ico ico-sales" aria-hidden="true">$</span>
+                <span class="badge badge-up">&#x25B2; 12.5%</span>
+              </div>
+              <p class="tile-metric">$48.2K</p>
+              <h3>Sales Report</h3>
+              <p class="tile-sub">Last updated: Jan 15, 2026</p>
+              <div class="spark" aria-hidden="true">
+                <span style="height: 42%;"></span><span style="height: 58%;"></span><span style="height: 48%;"></span><span style="height: 70%;"></span><span style="height: 62%;"></span><span style="height: 86%;"></span><span style="height: 76%;"></span>
+              </div>
+            </div>
+            <div data-testid="report-tile" class="report-tile" data-report-id="2">
+              <div class="tile-top">
+                <span class="tile-ico ico-mkt" aria-hidden="true">%</span>
+                <span class="badge badge-up">&#x25B2; 6.1%</span>
+              </div>
+              <p class="tile-metric">18.4K</p>
+              <h3>Marketing Dashboard</h3>
+              <p class="tile-sub">Last updated: Feb 20, 2026</p>
+              <div class="spark" aria-hidden="true">
+                <span style="height: 55%;"></span><span style="height: 40%;"></span><span style="height: 62%;"></span><span style="height: 50%;"></span><span style="height: 72%;"></span><span style="height: 60%;"></span><span style="height: 80%;"></span>
+              </div>
+            </div>
+            <div data-testid="report-tile" class="report-tile" data-report-id="3">
+              <div class="tile-top">
+                <span class="tile-ico ico-fin" aria-hidden="true">&#x2211;</span>
+                <span class="badge badge-down">&#x25BC; 2.3%</span>
+              </div>
+              <p class="tile-metric">$112K</p>
+              <h3>Finance Overview</h3>
+              <p class="tile-sub">Last updated: Mar 10, 2026</p>
+              <div class="spark" aria-hidden="true">
+                <span style="height: 80%;"></span><span style="height: 68%;"></span><span style="height: 74%;"></span><span style="height: 60%;"></span><span style="height: 66%;"></span><span style="height: 52%;"></span><span style="height: 58%;"></span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <div data-testid="side-panel" class="side-panel" id="sidePanel">
+    <h3>Notifications</h3>
+    <p>No new notifications</p>
+  </div>
+
+  <script src="/public/dashboard.js" defer></script>
+</body>
+</html>
