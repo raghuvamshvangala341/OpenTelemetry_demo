@@ -10,7 +10,9 @@ stack: playwright-ts
 environments:
   staging:
     baseUrl: http://host.docker.internal:3000
-    credentials: {}
+    credentials:
+      username: env:QZTESTING_AGENTQA_USERNAME
+      password: env:QZTESTING_AGENTQA_PASSWORD
 policies:
   trustMode: observe
 connectors: {}
