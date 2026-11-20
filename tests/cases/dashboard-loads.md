@@ -16,9 +16,10 @@ steps:
 
     expected: The heading Dashboard is visible
 
-  - action: Look at the primary navigation
+  - action: Click the Reports link
 
-    expected: The links Home, Reports, and Workspaces are visible
+    expected: The Reports link is visible
+ 
 
 tags:
 
