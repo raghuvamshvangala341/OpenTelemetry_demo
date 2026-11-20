@@ -1,0 +1,4 @@
+# AgentQA: only the manifest is versioned
+*
+!.gitignore
+!manifest.yaml
