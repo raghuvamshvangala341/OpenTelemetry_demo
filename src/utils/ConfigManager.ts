@@ -60,8 +60,8 @@ export class ConfigManager {
     }
     return {
       name: "fallback",
-      baseUrl: process.env.BASE_URL || "http://localhost:3000",
-      apiBaseUrl: process.env.API_BASE_URL || "http://localhost:3000/api/v1",
+      baseUrl: process.env.BASE_URL || "http://host.docker.internal:3000",
+      apiBaseUrl: process.env.API_BASE_URL || "http://host.docker.internal:3000/api/v1",
       timeout: 30000,
       actionTimeout: 10000,
       navigationTimeout: 30000,

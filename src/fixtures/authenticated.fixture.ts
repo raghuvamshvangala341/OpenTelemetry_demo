@@ -18,7 +18,7 @@ import { TestDataManager } from "../utils/TestDataManager";
  * @author Yousuf Waqar
  */
 
-const APP_URL = process.env.BASE_URL || "http://localhost:3000";
+const APP_URL = process.env.BASE_URL || "http://host.docker.internal:3000";
 
 type AuthWorkerFixtures = {
   workerAuthToken: string;

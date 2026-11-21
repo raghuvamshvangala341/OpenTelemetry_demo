@@ -9,11 +9,12 @@ const config = ConfigManager.getInstance();
 export default defineConfig({
   webServer: {
     command: 'node mock-app/server.js',
-    url: 'http://localhost:3000',
+    url: config.getBaseUrl(),
     timeout: 120 * 1000,
-    // Locally, reuse a mock server you already have running; on CI always start
-    // a fresh one so runs are hermetic.
-    reuseExistingServer: !process.env.CI,
+    // Reuse the app when it is already up. From the AgentQA executor that URL is
+    // http://host.docker.internal:3000 (the Windows process). Playwright starts
+    // mock-app/server.js only when that URL is not accepting connections.
+    reuseExistingServer: true,
   },
   testDir: "./tests",
   testMatch: "**/*.spec.ts",

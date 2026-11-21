@@ -3,8 +3,8 @@
   "environments": {
     "local": {
       "name": "local",
-      "baseUrl": "http://localhost:3000",
-      "apiBaseUrl": "http://localhost:3000/api/v1",
+      "baseUrl": "http://host.docker.internal:3000",
+      "apiBaseUrl": "http://host.docker.internal:3000/api/v1",
       "timeout": 30000,
       "actionTimeout": 10000,
       "navigationTimeout": 30000,
