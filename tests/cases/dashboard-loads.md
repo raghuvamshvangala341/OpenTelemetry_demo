@@ -4,6 +4,8 @@ id: dashboard-loads
 
 title: Authenticated dashboard shows primary navigation
 
+persona: default
+
 preconditions:
 
   - User is signed in (reuse existing auth fixture / storage state from the suite)
@@ -14,7 +16,7 @@ steps:
 
   - action: Open the dashboard
 
-    expected: The heading Dashboard is visible
+    expected: The heading "Welcome back, Test User!" is visible
 
   - action: Click the Reports link
 
