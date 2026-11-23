@@ -8,12 +8,12 @@ preconditions:
   - "Sales Report, Marketing Dashboard, and Finance Overview are listed"
 steps:
   - action: Open the dashboard
-    expected: "Search reports" is visible and "Sales Report" is visible
+    expected: '"Search reports" is visible and "Sales Report" is visible'
   - action: Enter Sales Report in the search box
-    expected: "Sales Report" is visible
+    expected: '"Sales Report" is visible'
     data: "Sales Report"
   - action: Enter marketing in the search box
-    expected: "Marketing Dashboard" is visible
+    expected: '"Marketing Dashboard" is visible'
     data: "marketing"
 tags:
   - regression
