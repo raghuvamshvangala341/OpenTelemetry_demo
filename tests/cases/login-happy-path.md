@@ -14,7 +14,9 @@ steps:
     expected: The Password field accepts the password
     data: "env:QZTESTING_AGENTQA_PASSWORD"
   - action: Click Sign In
-    expected: The dashboard is shown
+    expected: |-
+      The address contains /dashboard
+      The heading "Welcome back, Test User!" is visible
 tags:
   - smoke
   - auth

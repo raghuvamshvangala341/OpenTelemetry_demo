@@ -6,7 +6,7 @@ preconditions:
   - "No auth token is stored for this session"
 steps:
   - action: Open the dashboard
-    expected: The login form is visible and the heading "Welcome back, Test User!" is not shown
+    expected: The heading "Sign in" is visible
 tags:
   - smoke
   - auth
