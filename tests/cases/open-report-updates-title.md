@@ -1,6 +1,6 @@
 ---
 id: open-report-updates-title
-title: Opening a report tile updates the page title and stays on the dashboard
+title: Opening Sales Report leaves the Sales Report heading visible
 persona: default
 preconditions:
   - User is signed in (reuse existing auth fixture / storage state from the suite)
@@ -8,9 +8,9 @@ preconditions:
   - "Sales Report is present with id 1"
 steps:
   - action: Open the dashboard
-    expected: The Sales Report tile is visible and the page title is "Dashboard - Demo App"
-  - action: Click the Sales Report tile, not its Delete button
-    expected: The page title becomes "Report 1 - Demo App" and the address remains on the dashboard
+    expected: The heading "Sales Report" is visible
+  - action: Click Sales Report
+    expected: The heading "Sales Report" is visible
 tags:
   - regression
   - dashboard

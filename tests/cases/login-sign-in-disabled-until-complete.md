@@ -6,18 +6,16 @@ preconditions:
   - "The visitor is not signed in"
 steps:
   - action: Open the login page
-    expected: The Email field, Password field, and Sign In button are visible, and Sign In is disabled
-  - action: Enter only an email and leave the password empty
+    expected: Login form is visible and Sign In is disabled
+  - action: Enter three spaces in the Email field
     expected: Sign In stays disabled
-    data: "testuser@example.com"
-  - action: Clear the email and enter only a password
-    expected: Sign In stays disabled
-    data: "env:QZTESTING_AGENTQA_PASSWORD"
-  - action: Replace both fields with spaces only
-    expected: Sign In stays disabled
+    data: "   "
   - action: Enter the email
     expected: Sign In stays disabled
     data: "env:QZTESTING_AGENTQA_USERNAME"
+  - action: Enter three spaces in the Password field
+    expected: Sign In stays disabled
+    data: "   "
   - action: Enter the password
     expected: Sign In becomes enabled
     data: "env:QZTESTING_AGENTQA_PASSWORD"

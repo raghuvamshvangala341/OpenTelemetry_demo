@@ -8,12 +8,13 @@ preconditions:
   - "Sales Report, Marketing Dashboard, and Finance Overview are listed"
 steps:
   - action: Open the dashboard
-    expected: Three report tiles are visible under Your reports
-  - action: Type a query that matches no report name
+    expected: Sales Report, Marketing Dashboard, and Finance Overview are visible
+  - action: Enter does-not-exist in the search box
     expected: No report tiles are visible and the Your reports heading remains
     data: "does-not-exist"
-  - action: Clear the search box
-    expected: Sales Report, Marketing Dashboard, and Finance Overview are visible again
+  - action: Enter e in the search box
+    expected: Sales Report, Marketing Dashboard, and Finance Overview are visible
+    data: "e"
 tags:
   - regression
   - dashboard

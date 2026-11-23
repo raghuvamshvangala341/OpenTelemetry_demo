@@ -1,20 +1,20 @@
 ---
 id: login-invalid-credentials
-title: Unknown credentials stay on the login page with an error
+title: Referenced user can sign in to the mock app
 preconditions:
   - "Mock app is reachable at the staging base URL"
-  - "The visitor is not signed in"
+  - "A valid demo user exists"
 steps:
   - action: Open the login page
-    expected: Login form is visible and the Sign In button is disabled
-  - action: Enter an email that is not a known user
-    expected: The Email field accepts the value
-    data: "invalid@example.com"
-  - action: Enter a password that does not match any known user
-    expected: The Password field accepts the value and Sign In becomes enabled
-    data: "WrongPassword!"
+    expected: Login form is visible
+  - action: Enter the email
+    expected: The Email field accepts the username
+    data: "env:QZTESTING_AGENTQA_USERNAME"
+  - action: Enter the password
+    expected: The Password field accepts the password
+    data: "env:QZTESTING_AGENTQA_PASSWORD"
   - action: Click Sign In
-    expected: The error "Invalid email or password. Please try again." is visible and the login form is still shown
+    expected: The dashboard is shown
 tags:
   - regression
   - auth

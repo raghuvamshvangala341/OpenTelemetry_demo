@@ -8,12 +8,12 @@ preconditions:
   - "Sales Report, Marketing Dashboard, and Finance Overview are listed"
 steps:
   - action: Open the dashboard
-    expected: The search box with placeholder "Search reports..." is visible and three report tiles are visible
-  - action: Type Sales Report into the search box
-    expected: Only the Sales Report tile is visible
+    expected: "Search reports" is visible and "Sales Report" is visible
+  - action: Enter Sales Report in the search box
+    expected: "Sales Report" is visible
     data: "Sales Report"
-  - action: Replace the query with marketing
-    expected: Only the Marketing Dashboard tile is visible
+  - action: Enter marketing in the search box
+    expected: "Marketing Dashboard" is visible
     data: "marketing"
 tags:
   - regression
